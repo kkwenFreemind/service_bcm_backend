@@ -117,8 +117,8 @@ public class AdminController {
             userRepository.save(user);
 
             sw.stop();
-            ApiEvents apiEvents = new ApiEvents(user.getId(), ipAddress, request.getMethod(), user.getUsername(), request.getRequestURL().toString(), 1, "success", userAgent, 1, sw.getTotalTimeMillis());
-            apiEventRepository.save(apiEvents);
+            //ApiEvents apiEvents = new ApiEvents(user.getId(), ipAddress, request.getMethod(), user.getUsername(), request.getRequestURL().toString(), 1, "success", userAgent, 1, sw.getTotalTimeMillis());
+            //apiEventRepository.save(apiEvents);
 
             return CommonResult.success(tokenMap);
 
@@ -127,8 +127,8 @@ public class AdminController {
             log.info("login exception=>" + exception.toString());
             sw.stop();
 
-            ApiEvents apiEvents = new ApiEvents(999L, ipAddress, request.getMethod(), loginRequest.getUsername(), request.getRequestURL().toString(), 0, "failed" + exception.toString(), userAgent, 1, sw.getTotalTimeMillis());
-            apiEventRepository.save(apiEvents);
+            //ApiEvents apiEvents = new ApiEvents(999L, ipAddress, request.getMethod(), loginRequest.getUsername(), request.getRequestURL().toString(), 0, "failed" + exception.toString(), userAgent, 1, sw.getTotalTimeMillis());
+           // apiEventRepository.save(apiEvents);
 
             return CommonResult.unauthorized(null);
         }
