@@ -16,6 +16,7 @@ public class FetCycleUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String user_id;
     private String password;
     private Date creation_date;
     private String english_name;

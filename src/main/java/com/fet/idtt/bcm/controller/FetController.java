@@ -8,6 +8,7 @@ import com.fet.idtt.admin.repository.ApiEventRepository;
 import com.fet.idtt.admin.security.service.UserDetailsImpl;
 import com.fet.idtt.bcm.dto.FetUser;
 import com.fet.idtt.bcm.dto.FetUserRequest;
+import com.fet.idtt.bcm.model.FetCycleDuty;
 import com.fet.idtt.bcm.model.FetCycleUser;
 import com.fet.idtt.bcm.repository.FetCycleDutyRepository;
 import com.fet.idtt.bcm.repository.FetCycleUserRespository;
@@ -25,10 +26,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by kevin on 2024/6/11 下午9:30
@@ -64,11 +62,25 @@ public class FetController {
 
             List<FetCycleUser> fetUserList = fetCycleUserRespository.findAll();
             log.info("===>"+fetUserList.size());
+            List<FetUser> fetUsersDto = new ArrayList<>();
+            for(FetCycleUser fetCycleUser : fetUserList){
+                FetUser fetUser = new FetUser();
+                List<FetCycleDuty> fetCycleDuty = fetCycleDutyRepository.findByUserId(fetCycleUser.getUser_id());
+
+                fetUser.setChinese_name(fetCycleUser.getChinese_name());
+                fetUser.setEnglish_name(fetCycleUser.getEnglish_name());
+                fetUser.setUser_id(fetCycleUser.getUser_id());
+                fetUser.setGroup_id(fetCycleDuty.get(0).getGroup_id());
+                fetUser.setCycle_date(fetCycleDuty.get(0).getCycle_date().toString());
+                fetUser.setUser_prim(fetCycleDuty.get(0).getUser_prim());
+                fetUsersDto.add(fetUser);
+
+            }
             sw.stop();
             //ApiEvents apiEvents = new ApiEvents(user.getId(), ipAddress, request.getMethod(), user.getUsername(), request.getRequestURL().toString(), 1, "success", userAgent, 1, sw.getTotalTimeMillis());
             //apiEventRepository.save(apiEvents);
 
-            return CommonResult.success(fetUserList);
+            return CommonResult.success(fetUsersDto);
 
         } catch (Exception exception) {
 

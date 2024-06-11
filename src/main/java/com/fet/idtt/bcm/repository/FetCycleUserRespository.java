@@ -17,15 +17,8 @@ public interface FetCycleUserRespository  extends JpaRepository<FetCycleUser, Lo
 
 
 
-    @Query(value = "SELECT fcu.cycle_date,\n" +
-            "fcu.user_id,\n" +
-            "fcu.group_id,\n" +
-            "fcu.english_name,fcd.user_id,\n" +
-            "user_prim\n" +
-            "FROM fet_cycle_duty fcd,\n" +
-            " fet_cycle_user fcu\n" +
-            "WHERE fcd.user_prim = 'Y'\n" +
-            "   AND fcd.user_id = fcu.user_id;",nativeQuery = true)
+    @Query(value = "SELECT * " +
+            "FROM fet_cycle_user",nativeQuery = true)
     List<FetCycleUser> getFetUser();
 
 }
